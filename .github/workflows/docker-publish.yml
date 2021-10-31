@@ -70,16 +70,33 @@ jobs:
         working-directory: .
         run: docker-compose build
         
-      - name: Push to Docker Hub
+      - name: Create Docker Snapshot Tag - Eureka
         run: 
           docker tag ${{ secrets.DOCKER_USERNAME }}/eureka-service:0.0.1-SNAPSHOT ${{ secrets.DOCKER_USERNAME }}/eureka-service:${{github.run_id}}
+   
+      - name: Create Docker Latest Tag - Eureka
+        run: 
           docker tag ${{ secrets.DOCKER_USERNAME }}/eureka-service:0.0.1-SNAPSHOT ${{ secrets.DOCKER_USERNAME }}/eureka-service:latest
+          
+                  
+      - name: Create Docker Tag - API Gateway
+        run: 
           docker tag ${{ secrets.DOCKER_USERNAME }}/api-gateway:0.0.1-SNAPSHOT ${{ secrets.DOCKER_USERNAME }}/api-gateway:${{github.run_id}}
           docker tag ${{ secrets.DOCKER_USERNAME }}/api-gateway:0.0.1-SNAPSHOT ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
+          
+      - name: Create Docker Tag - Cambio
+        run: 
           docker tag ${{ secrets.DOCKER_USERNAME }}/cambio-service:0.0.1-SNAPSHOT ${{ secrets.DOCKER_USERNAME }}/cambio-service:${{github.run_id}}
           docker tag ${{ secrets.DOCKER_USERNAME }}/cambio-service:0.0.1-SNAPSHOT ${{ secrets.DOCKER_USERNAME }}/cambio-service:latest
+          
+          
+      - name: Create Docker Tag - Book
+        run: 
           docker tag ${{ secrets.DOCKER_USERNAME }}/book-service:0.0.1-SNAPSHOT ${{ secrets.DOCKER_USERNAME }}/book-service:${{github.run_id}}
           docker tag ${{ secrets.DOCKER_USERNAME }}/book-service:0.0.1-SNAPSHOT ${{ secrets.DOCKER_USERNAME }}/book-service:latest
+          
+      - name: Push Docker Tags
+        run: 
           docker push ${{ secrets.DOCKER_USERNAME }}/eureka-service:${{github.run_id}}
           docker push ${{ secrets.DOCKER_USERNAME }}/eureka-service:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/api-gateway:${{github.run_id}}
