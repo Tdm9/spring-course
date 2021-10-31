@@ -33,14 +33,10 @@ class BookController {
     @GetMapping(value = ["/{id}/{currency}"])
     fun findBook(@PathVariable("id") id: Long, @PathVariable("currency") currency: String?): Book? {
         val book: Book = repository?.getById(id) ?: throw RuntimeException("Book not Found")
-        val cambio: Cambio? = proxy?.getCambio(book.price, "USD", currency)
+        val cambio:Cambio = proxy?.getCambio(book.price!!, "USD", currency!!)!!
         val port: String? = environment?.getProperty("local.server.port")
-        if (cambio != null) {
-            book.environment="Book port: " + port + " Cambio Port " + cambio.environment
-        }
-        if (cambio != null) {
-            book.price=cambio.convertedValue
-        }
+        book.environment="Book port: " + port + " Cambio Port " + cambio.environment
+        book.price=cambio.convertedValue
         return book
     }
 }
