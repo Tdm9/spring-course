@@ -83,7 +83,7 @@ services:
       - course-network
 
   cambio-service:
-    image: tdm9/cambio-service
+    image: tdm9/cambio-service:0.0.1-SNAPSHOT
     restart: always
     build:
       context: .
@@ -111,7 +111,7 @@ services:
       - course-network
       
   book-service:
-    image: tdm9/book-service
+    image: tdm9/book-service:0.0.1-SNAPSHOT
     restart: always
     build:
       context: .
