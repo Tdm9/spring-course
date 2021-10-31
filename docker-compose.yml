@@ -60,7 +60,7 @@ services:
       - course-network
 
   eureka-service:
-    image: tdm9/naming-server:0.0.1-SNAPSHOT
+    image: tdm9/eureka-server:0.0.1-SNAPSHOT
     ports:
       - 8761:8761
     networks:
@@ -71,7 +71,7 @@ services:
     ports:
       - 8765:8765
     depends_on:
-      - naming-server
+      - eureka-server
       - rabbit-mq
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
@@ -87,7 +87,7 @@ services:
     restart: always
     build:
       context: .
-      dockerfile: 10-cambio-service/Dockerfile
+      dockerfile: cambio-service/Dockerfile
     environment:
       TZ: America/Sao_Paulo
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
@@ -104,18 +104,18 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - naming-server
+      - eureka-server
       - cambio-db
       - rabbit-mq
     networks:
       - course-network
       
   book-service:
-    image: leandrocgsi/book-service
+    image: tdm9/book-service
     restart: always
     build:
       context: .
-      dockerfile: 10-book-service/Dockerfile
+      dockerfile: book-service/Dockerfile
     environment:
       TZ: America/Sao_Paulo
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
@@ -132,7 +132,7 @@ services:
     ports:
       - 8100:8100
     depends_on:
-      - naming-server
+      - eureka-server
       - book-db
       - rabbit-mq
     networks:
