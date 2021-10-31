@@ -71,7 +71,7 @@ services:
     ports:
       - 8765:8765
     depends_on:
-      - eureka-server
+      - eureka-service
       - rabbit-mq
     environment:
       EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
@@ -104,7 +104,7 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - eureka-server
+      - eureka-service
       - cambio-db
       - rabbit-mq
     networks:
@@ -132,7 +132,7 @@ services:
     ports:
       - 8100:8100
     depends_on:
-      - eureka-server
+      - eureka-service
       - book-db
       - rabbit-mq
     networks:
